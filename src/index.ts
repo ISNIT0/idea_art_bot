@@ -5,19 +5,15 @@ import { GenerationConfig, Tweet } from "./types";
 import { twitterClient } from "./Twitter";
 
 function areBasedOnSameTweet(lastTweetAt?: Tweet, lastTweetFrom?: Tweet) {
-  const normalizedTweetAt = (lastTweetAt?.text || "")
-    .replace("Concept art for a ", "")
-    .slice(0, 20);
-  return normalizedTweetAt && lastTweetFrom?.text.includes(normalizedTweetAt);
+  const normalizedTweetFrom = lastTweetFrom?.text.slice(20, -10);
+  return normalizedTweetFrom && lastTweetAt?.text.includes(normalizedTweetFrom);
 }
 
 async function getLatestUnhandledTweet(
   twitterHandle: string
 ): Promise<Tweet | null> {
   const { data: tweetAtHandleTimeline } =
-    await twitterClient.readWrite.v2.search(
-      `from:IdeaArtBot ${twitterHandle}`
-    );
+    await twitterClient.readWrite.v2.search(`from:IdeaArtBot ${twitterHandle}`);
   const { data: handleTimeline } = await twitterClient.readWrite.v2.search(
     `from:${twitterHandle}`
   );
