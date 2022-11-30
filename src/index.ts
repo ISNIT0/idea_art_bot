@@ -47,7 +47,7 @@ async function doTweet({
   generationConfig: GenerationConfig;
   imageId: string;
 }) {
-  await twitterClient.v2.tweet(generationConfig.tweetable + ` @${handle}`, {
+  await twitterClient.v2.tweet(generationConfig.tweetable + `\nFrom: ${handle}`, {
     quote_tweet_id: tweet.id,
     media: { media_ids: [imageId] },
   });
