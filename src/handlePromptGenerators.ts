@@ -81,4 +81,13 @@ export const twitterHandlePromptGenerators: Record<
       tweetable: templated,
     };
   },
+  visualizevalue: (tweet: Tweet) => {
+    console.log(tweet);
+    const normalizedBody = tweet.text.split("http")[0];
+    const templated = `An abstract monochrome illustration depicting the concept: ${normalizedBody}`;
+    return {
+      prompt: templated,
+      tweetable: templated,
+    };
+  },
 };

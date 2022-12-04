@@ -19,7 +19,9 @@ async function getLatestUnhandledTweet(
   );
 
   const lastTweetAtHandle = tweetAtHandleTimeline.data?.[0];
-  const lastTweetForHandle = handleTimeline.data?.[0];
+  const lastTweetForHandle = handleTimeline.data?.filter(
+    (tweet) => !tweet.text.startsWith("RT") && !tweet.text.startsWith("http")
+  )[0];
 
   if (!areBasedOnSameTweet(lastTweetAtHandle, lastTweetForHandle)) {
     console.info(
@@ -47,10 +49,13 @@ async function doTweet({
   generationConfig: GenerationConfig;
   imageId: string;
 }) {
-  await twitterClient.v2.tweet(generationConfig.tweetable + `\nFrom: ${handle}`, {
-    quote_tweet_id: tweet.id,
-    media: { media_ids: [imageId] },
-  });
+  await twitterClient.v2.tweet(
+    generationConfig.tweetable + `\nFrom: ${handle}`,
+    {
+      quote_tweet_id: tweet.id,
+      media: { media_ids: [imageId] },
+    }
+  );
 }
 
 async function run() {
