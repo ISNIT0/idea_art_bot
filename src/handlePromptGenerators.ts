@@ -8,13 +8,49 @@ const beginnings = [
   "A sketch of",
 ];
 
-const endings = [", trending on artstation", ", in space", "", "", ""];
+const endings = [
+  ", tighly detailed",
+  ", surrealism",
+  ", trending on art station",
+  ", triadic color scheme",
+  ", smooth",
+  ", sharp focus",
+  ", matte",
+  ", elegant",
+  ", the most beautiful image ever seen",
+  ", illustration",
+  ", digital paint",
+  ", dark",
+  ", gloomy",
+  ", octane render",
+  ", 8k",
+  ", 4k",
+  ", washed colours",
+  ", sharp",
+  ", dramatic lighting",
+  ", beautiful",
+  ", post processing",
+  ", picture of the day",
+  ", ambient lighting",
+  ", epic composition",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+];
 
-function getRandomBeginning() {
-  return beginnings[Math.round(Math.random() * beginnings.length - 1)];
+function getRandomBeginning(beginningsToUse = beginnings) {
+  return beginningsToUse[
+    Math.round(Math.random() * beginningsToUse.length - 1)
+  ];
 }
-function getRandomEnding() {
-  return endings[Math.round(Math.random() * endings.length - 1)];
+function getRandomEnding(endingsToUse = endings) {
+  return endingsToUse[Math.round(Math.random() * endingsToUse.length - 1)];
 }
 
 export const twitterHandlePromptGenerators: Record<
@@ -82,9 +118,28 @@ export const twitterHandlePromptGenerators: Record<
     };
   },
   visualizevalue: (tweet: Tweet) => {
-    console.log(tweet);
     const normalizedBody = tweet.text.split("http")[0];
-    const templated = `An abstract illustration depicting the concept: ${normalizedBody}, trending on artstation`;
+    const templated = `An abstract illustration depicting the concept: ${normalizedBody}${getRandomEnding(
+      endings.filter(Boolean)
+    )}`;
+    return {
+      prompt: templated,
+      tweetable: templated,
+    };
+  },
+  ShockedAtShit: (tweet: Tweet) => {
+    const normalizedBody = tweet.text;
+    const prefixes = [
+      "A newspaper story about",
+      "A photograph of",
+      "Concept art for",
+      "A sketch of",
+      "Protestors upset that",
+      "Fans celebrating that",
+    ];
+    const templated = `${getRandomBeginning(
+      prefixes
+    )} ${normalizedBody}${getRandomEnding()}`;
     return {
       prompt: templated,
       tweetable: templated,

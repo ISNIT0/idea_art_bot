@@ -4,8 +4,14 @@ import { twitterHandlePromptGenerators } from "./handlePromptGenerators";
 import { GenerationConfig, Tweet } from "./types";
 import { twitterClient } from "./Twitter";
 
+const URL_REGEX =
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
+
 function areBasedOnSameTweet(lastTweetAt?: Tweet, lastTweetFrom?: Tweet) {
-  const normalizedTweetFrom = lastTweetFrom?.text.slice(20, -10);
+  const normalizedTweetFrom = lastTweetFrom?.text
+    .slice(20, -10)
+    // Some tweets have an embedded link, which doesn't get re-tweeted
+    .replace(URL_REGEX, "");
   return normalizedTweetFrom && lastTweetAt?.text.includes(normalizedTweetFrom);
 }
 
