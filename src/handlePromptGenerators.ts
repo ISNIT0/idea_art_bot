@@ -84,7 +84,7 @@ export const twitterHandlePromptGenerators: Record<
   visualizevalue: (tweet: Tweet) => {
     console.log(tweet);
     const normalizedBody = tweet.text.split("http")[0];
-    const templated = `An abstract monochrome illustration depicting the concept: ${normalizedBody}`;
+    const templated = `An abstract illustration depicting the concept: ${normalizedBody}, trending on artstation`;
     return {
       prompt: templated,
       tweetable: templated,
